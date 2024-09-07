@@ -134,7 +134,5 @@ def main():
         {"ticker": "ITUB3.SA", "data": "2023-08-10", "valor_investido": 300},
     ]
 
-    # gera_carteira(compras)
-
 if __name__ == '__main__':
     main()
