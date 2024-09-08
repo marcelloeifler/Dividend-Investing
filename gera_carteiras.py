@@ -130,25 +130,35 @@ def gera_ranking_medio(lista_rankings):
 
     return pd.DataFrame(df_rows_list)
 
+def gera_compras(lista_ranking_medio):
+
+    compras = []
+
+    for df in lista_ranking_medio:
+        for idx, linha in df.iterrows():
+            ticker = linha["Papel"]
+            ano = str(linha["Ano"])
+
+            dic_compras = {}
+
+            ###
+
+            compras.append(dic_compras)
+
+    return compras
+
+
 def main():
     # dados de 2012 são usados p comprar em 2013 e por ai vai...
     lista_anos = [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
 
-    # Ler o arquivo .xlsx e converter para um DataFrame
+    # Leitura da planilha com info quant dos ativos
     df = pd.read_excel("Tabela_Info_Quant.xlsx")
 
     df = df.dropna()
     df = df.reset_index(drop=True)
 
     print(df)
-    print("a")
-
-    # df_filtrado = get_ranking(df, "roa", 2015, 8)
-    # print(df_filtrado)
-
-    #definir os rankings médios
-    # as variaveis serao listas de dataframes
-    # ranking_dy, ..., ranking_dy_pl_roa
 
     # rankings para as monstagens das carteiras
     ranking_dy = gera_lista_rankings(df, ["dy"], lista_anos)
@@ -158,6 +168,8 @@ def main():
     ranking_pl_dy = gera_lista_rankings(df,["p_l","dy"],lista_anos)
     ranking_pl_roa = gera_lista_rankings(df,["p_l","roa"],lista_anos)
     ranking_dy_pl_roa = gera_lista_rankings(df,["dy","p_l","roa"],lista_anos)
+
+    compras = gera_compras(ranking_dy_pl_roa)
 
     # for ranking in lista_ranking_anual:
     #     print(ranking)
