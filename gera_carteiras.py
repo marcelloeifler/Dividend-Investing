@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import yfinance as yf
 import logging
-
 # Configuração de log para exibir mensagens de nível INFO no terminal
 logging.basicConfig(level=logging.INFO)
 
@@ -89,6 +88,7 @@ def gera_carteira(compras):
 def gera_lista_rankings(df, lista_indicadores, lista_anos):
 
     lista_rankings_anual = []
+    indicador_medio = "+".join(lista_indicadores)
 
     for ano in lista_anos:
 
@@ -96,15 +96,39 @@ def gera_lista_rankings(df, lista_indicadores, lista_anos):
 
         for indicador in lista_indicadores:
             df_ranking = get_ranking(df, indicador, ano, 100)
-            lista_rankings.append(df)
+            lista_rankings.append(df_ranking)
 
         df_ranking_medio = gera_ranking_medio(lista_rankings)
+        df_ranking_medio["Ano"] = ano
+        df_ranking_medio["indicador_medio"] = indicador_medio
         lista_rankings_anual.append(df_ranking_medio)
 
     return lista_rankings_anual
 
-def gera_ranking_medio():
-    pass
+def gera_ranking_medio(lista_rankings):
+
+    dic_ranking_medio = {}
+
+    for df_ranking in lista_rankings:
+        for idx, linha in df_ranking.iterrows():
+            papel = linha["Papel"]
+            pontuacao = 100 - idx
+
+            if papel not in dic_ranking_medio.keys():
+                dic_ranking_medio[papel] = pontuacao
+            else:
+                dic_ranking_medio[papel] += pontuacao
+
+    dic_ranking_medio = dict(sorted(dic_ranking_medio.items(), key=lambda x: x[1], reverse=True))
+
+    df_rows_list = []
+
+    for papel in dic_ranking_medio.keys():
+        df_row = {}
+        df_row["Papel"] = papel
+        df_rows_list.append(df_row)
+
+    return pd.DataFrame(df_rows_list)
 
 def main():
     # dados de 2012 são usados p comprar em 2013 e por ai vai...
@@ -117,13 +141,26 @@ def main():
     df = df.reset_index(drop=True)
 
     print(df)
+    print("a")
 
-    df_filtrado = get_ranking(df, "p_l", 2015, 8)
-    print(df_filtrado)
+    # df_filtrado = get_ranking(df, "roa", 2015, 8)
+    # print(df_filtrado)
 
     #definir os rankings médios
     # as variaveis serao listas de dataframes
     # ranking_dy, ..., ranking_dy_pl_roa
+
+    # rankings para as monstagens das carteiras
+    ranking_dy = gera_lista_rankings(df, ["dy"], lista_anos)
+    ranking_pl = gera_lista_rankings(df, ["p_l"], lista_anos)
+    ranking_roa = gera_lista_rankings(df, ["roa"], lista_anos)
+    ranking_roa_dy = gera_lista_rankings(df, ["roa", "dy"], lista_anos)
+    ranking_pl_dy = gera_lista_rankings(df,["p_l","dy"],lista_anos)
+    ranking_pl_roa = gera_lista_rankings(df,["p_l","roa"],lista_anos)
+    ranking_dy_pl_roa = gera_lista_rankings(df,["dy","p_l","roa"],lista_anos)
+
+    # for ranking in lista_ranking_anual:
+    #     print(ranking)
 
     # Definir as compras feitas
     compras = [
