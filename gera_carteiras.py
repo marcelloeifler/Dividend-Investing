@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import yfinance as yf
 import logging
+import constants as c
 # Configuração de log para exibir mensagens de nível INFO no terminal
 logging.basicConfig(level=logging.INFO)
 
@@ -130,7 +131,7 @@ def gera_ranking_medio(lista_rankings):
 
     return pd.DataFrame(df_rows_list)
 
-def gera_compras(lista_ranking_medio):
+def gera_compras(lista_ranking_medio, mes, qtd_acoes, criterio):
 
     compras = []
 
@@ -138,8 +139,11 @@ def gera_compras(lista_ranking_medio):
         for idx, linha in df.iterrows():
             ticker = linha["Papel"]
             ano = str(linha["Ano"])
+            data_compra = c.dic_datas_compras[ano][mes]
 
             dic_compras = {}
+            dic_compras["ticker"] = ticker + ".SA"
+            # dic_compras["valor_investido"] = get_valor_investido(qtd_acoes, criterio, idx)
 
             ###
 
@@ -147,10 +151,12 @@ def gera_compras(lista_ranking_medio):
 
     return compras
 
+def get_valor_investido(qtd_acoes, criterio, idx):
+    pass
 
 def main():
     # dados de 2012 são usados p comprar em 2013 e por ai vai...
-    lista_anos = [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
+    lista_anos = [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021]
 
     # Leitura da planilha com info quant dos ativos
     df = pd.read_excel("Tabela_Info_Quant.xlsx")
@@ -169,7 +175,10 @@ def main():
     ranking_pl_roa = gera_lista_rankings(df,["p_l","roa"],lista_anos)
     ranking_dy_pl_roa = gera_lista_rankings(df,["dy","p_l","roa"],lista_anos)
 
-    compras = gera_compras(ranking_dy_pl_roa)
+    for i in ranking_dy:
+        print(i)
+
+    # compras = gera_compras(ranking_dy_pl_roa)
 
     # for ranking in lista_ranking_anual:
     #     print(ranking)
