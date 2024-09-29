@@ -136,13 +136,18 @@ def gera_compras(lista_ranking_medio, mes, qtd_acoes, criterio):
     compras = []
 
     for df in lista_ranking_medio:
+
+        df = df.head(qtd_acoes)
+        df = df.reset_index(drop=True)
+
         for idx, linha in df.iterrows():
             ticker = linha["Papel"]
-            ano = str(linha["Ano"])
+            ano = str(linha["Ano"] + 1) # será realizado a compra um ano após o ano do ranking
             data_compra = c.dic_datas_compras[ano][mes]
 
             dic_compras = {}
             dic_compras["ticker"] = ticker + ".SA"
+            dic_compras["data"] = data_compra
             # dic_compras["valor_investido"] = get_valor_investido(qtd_acoes, criterio, idx)
 
             ###
@@ -175,10 +180,11 @@ def main():
     ranking_pl_roa = gera_lista_rankings(df,["p_l","roa"],lista_anos)
     ranking_dy_pl_roa = gera_lista_rankings(df,["dy","p_l","roa"],lista_anos)
 
-    for i in ranking_dy:
-        print(i)
+    # for i in ranking_dy:
+    #     print(i)
 
-    # compras = gera_compras(ranking_dy_pl_roa)
+    compras = gera_compras(ranking_dy_pl_roa,"Agosto",3,"batata")
+    print(compras)
 
     # for ranking in lista_ranking_anual:
     #     print(ranking)
