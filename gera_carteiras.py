@@ -30,7 +30,7 @@ def get_ranking(df, indicador, ano, quantidade):
 
 def gera_carteira(compras):
     # Definir o intervalo de datas
-    inicio = "2023-01-13"
+    inicio = "2013-01-01"
     fim = "2023-12-31"
 
     # Baixar os dados históricos de fechamento ajustado para os tickers
@@ -148,7 +148,7 @@ def gera_compras(lista_ranking_medio, mes, qtd_acoes, criterio):
             dic_compras = {}
             dic_compras["ticker"] = ticker + ".SA"
             dic_compras["data"] = data_compra
-            # dic_compras["valor_investido"] = get_valor_investido(qtd_acoes, criterio, idx)
+            dic_compras["valor_investido"] = get_valor_investido(qtd_acoes, criterio, idx)
 
             ###
 
@@ -157,7 +157,25 @@ def gera_compras(lista_ranking_medio, mes, qtd_acoes, criterio):
     return compras
 
 def get_valor_investido(qtd_acoes, criterio, idx):
-    pass
+
+    valor_base = 1000
+    peso_10 = [0.2, 0.2, 0.15, 0.1, 0.1, 0.05, 0.05, 0.05, 0.05, 0.05]
+    peso_7 = [0.3, 0.2, 0.2, 0.1, 0.1, 0.05, 0.05]
+    peso_5 = [0.35, 0.25, 0.25, 0.1, 0.05]
+    peso_3 = [0.6, 0.3, 0.1]
+
+    if criterio == "igual":
+        return valor_base
+    else:
+        if qtd_acoes == 3:
+            return peso_3[idx] * valor_base
+        if qtd_acoes == 5:
+            return peso_5[idx] * valor_base
+        if qtd_acoes == 7:
+            return peso_7[idx] * valor_base
+        if qtd_acoes == 10:
+            return peso_10[idx] * valor_base
+        return valor_base
 
 def main():
     # dados de 2012 são usados p comprar em 2013 e por ai vai...
@@ -165,7 +183,7 @@ def main():
 
     # Leitura da planilha com info quant dos ativos
     df = pd.read_excel("Tabela_Info_Quant.xlsx")
-
+    df = df.drop(df[df['Papel'] == 'ENAT3'].index)
     df = df.dropna()
     df = df.reset_index(drop=True)
 
@@ -183,8 +201,12 @@ def main():
     # for i in ranking_dy:
     #     print(i)
 
-    compras = gera_compras(ranking_dy_pl_roa,"Agosto",3,"batata")
+    #print(ranking_dy_pl_roa)
+
+    compras = gera_compras(ranking_dy_pl_roa,"Dezembro",3,"proporcional")
+
     print(compras)
+    gera_carteira(compras)
 
     # for ranking in lista_ranking_anual:
     #     print(ranking)
