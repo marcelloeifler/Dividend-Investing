@@ -2,6 +2,7 @@ lista_meses = []
 
 dic_datas_compras = {
     "2013": {
+        "Julho": "2013-07-01",
         "Agosto": "2013-08-01",
         "Setembro": "2013-09-02",
         "Outubro": "2013-10-01",
@@ -9,6 +10,7 @@ dic_datas_compras = {
         "Dezembro": "2013-12-02"
     },
     "2014": {
+        "Julho": "2014-07-01",
         "Agosto": "2014-08-01",
         "Setembro": "2014-09-01",
         "Outubro": "2014-10-01",
@@ -16,6 +18,7 @@ dic_datas_compras = {
         "Dezembro": "2014-12-01"
     },
     "2015": {
+        "Julho": "2015-07-01",
         "Agosto": "2015-08-03",
         "Setembro": "2015-09-01",
         "Outubro": "2015-10-01",
@@ -23,6 +26,7 @@ dic_datas_compras = {
         "Dezembro": "2015-12-01"
     },
     "2016": {
+        "Julho": "2016-07-01",
         "Agosto": "2016-08-01",
         "Setembro": "2016-09-01",
         "Outubro": "2016-10-03",
@@ -30,6 +34,7 @@ dic_datas_compras = {
         "Dezembro": "2016-12-01"
     },
     "2017": {
+        "Julho": "2017-07-03",
         "Agosto": "2017-08-01",
         "Setembro": "2017-09-01",
         "Outubro": "2017-10-02",
@@ -37,6 +42,7 @@ dic_datas_compras = {
         "Dezembro": "2017-12-01"
     },
     "2018": {
+        "Julho": "2018-07-02",
         "Agosto": "2018-08-01",
         "Setembro": "2018-09-03",
         "Outubro": "2018-10-01",
@@ -44,6 +50,7 @@ dic_datas_compras = {
         "Dezembro": "2018-12-03"
     },
     "2019": {
+        "Julho": "2019-07-01",
         "Agosto": "2019-08-01",
         "Setembro": "2019-09-02",
         "Outubro": "2019-10-01",
@@ -51,6 +58,7 @@ dic_datas_compras = {
         "Dezembro": "2019-12-02"
     },
     "2020": {
+        "Julho": "2020-07-01",
         "Agosto": "2020-08-03",
         "Setembro": "2020-09-01",
         "Outubro": "2020-10-01",
@@ -58,6 +66,7 @@ dic_datas_compras = {
         "Dezembro": "2020-12-01"
     },
     "2021": {
+        "Julho": "2021-07-01",
         "Agosto": "2021-08-02",
         "Setembro": "2021-09-01",
         "Outubro": "2021-10-01",
@@ -65,6 +74,7 @@ dic_datas_compras = {
         "Dezembro": "2021-12-01"
     },
     "2022": {
+        "Julho": "2022-07-01",
         "Agosto": "2022-08-01",
         "Setembro": "2022-09-01",
         "Outubro": "2022-10-03",

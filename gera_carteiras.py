@@ -86,6 +86,8 @@ def gera_carteira(compras):
     # Visualizar o retorno total da carteira no período
     print(f"Retorno total da carteira de {inicio} a {fim}: {retorno_total * 100:.2f}%")
 
+
+
 def gera_lista_rankings(df, lista_indicadores, lista_anos):
 
     lista_rankings_anual = []
@@ -177,6 +179,28 @@ def get_valor_investido(qtd_acoes, criterio, idx):
             return peso_10[idx] * valor_base
         return valor_base
 
+def gera_compra_indice(ticker,mes, lista_anos):
+    compras = []
+
+    for ano in lista_anos:
+
+        ano_compra = str(ano + 1)
+        data_compra = c.dic_datas_compras[ano_compra][mes]
+
+        dic_compras = {}
+        dic_compras["ticker"] = ticker
+        dic_compras["data"] = data_compra
+        dic_compras["valor_investido"] = 1000
+
+        ###
+
+        compras.append(dic_compras)
+
+    return compras
+
+def gera_carteira_indice(compras):
+    pass
+
 def main():
     # dados de 2012 são usados p comprar em 2013 e por ai vai...
     lista_anos = [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021]
@@ -203,10 +227,13 @@ def main():
 
     #print(ranking_dy_pl_roa)
 
-    compras = gera_compras(ranking_dy_pl_roa,"Dezembro",3,"proporcional")
+    #compras = gera_compras(ranking_dy_pl_roa,"Julho",3,"proporcional")
+    compras = gera_compra_indice("BOVA11.SA","Julho",lista_anos)
 
     print(compras)
-    gera_carteira(compras)
+    #gera_carteira(compras)
+    gera_carteira_indice(compras)
+
 
     # for ranking in lista_ranking_anual:
     #     print(ranking)
