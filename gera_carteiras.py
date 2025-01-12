@@ -28,84 +28,6 @@ def get_ranking(df, indicador, ano, quantidade):
 
     return df_filtrado
 
-# def gera_carteira(compras):
-#     # Definir o intervalo de datas
-#     inicio = "2013-01-01"
-#     fim = "2023-12-31"
-#
-#     # Baixar os dados históricos de fechamento ajustado para os tickers
-#     tickers = list(set([compra["ticker"] for compra in compras]))
-#     dados = yf.download(tickers, start=inicio, end=fim)["Adj Close"]
-#
-#     # Inicializar um DataFrame para armazenar a quantidade de ações compradas
-#     # A inicialização é feita com tipo float para evitar o problema de incompatibilidade de tipos
-#     quantidade_acoes_df = pd.DataFrame(0.0, index=dados.index, columns=tickers)
-#
-#     # Inicializar o total investido
-#     total_investido = 0
-#
-#     # Processar cada compra
-#     for compra in compras:
-#         ticker = compra["ticker"]
-#         data_compra = compra["data"]
-#         valor_investido = compra["valor_investido"]
-#
-#         # Somar ao total investido
-#         total_investido += valor_investido
-#
-#         # Preço de fechamento ajustado na data da compra
-#         preco_compra = dados.loc[data_compra, ticker]
-#
-#         # Quantidade de ações compradas
-#         quantidade_acoes = valor_investido / preco_compra
-#
-#         # Converter para o tipo float64 antes de somar, se necessário
-#         quantidade_acoes_df[ticker] = quantidade_acoes_df[ticker].astype(np.float64)
-#
-#         # Adicionar a quantidade de ações compradas ao DataFrame de quantidade de ações
-#         quantidade_acoes_df.loc[data_compra:, ticker] += quantidade_acoes
-#
-#     # Calcular o valor da carteira ao longo do tempo
-#     valor_carteira = pd.DataFrame(index=dados.index)
-#     for ticker in tickers:
-#         valor_carteira[ticker] = quantidade_acoes_df[ticker] * dados[ticker]
-#
-#     # Calcular os dividendos recebidos ao longo do tempo
-#     dividendos_totais = pd.DataFrame(0.0, index=dados.index, columns=tickers)
-#     dividendos_acumulados = 0  # Inicializando a soma total dos dividendos
-#
-#     if 'Dividends' in dados.columns:
-#         for ticker in tickers:
-#             dividendos_por_ticker = quantidade_acoes_df[ticker] * dados['Dividends'][ticker].fillna(0)
-#             dividendos_totais[ticker] = dividendos_por_ticker
-#             dividendos_acumulados += dividendos_por_ticker.sum()  # Somando todos os dividendos ao longo do tempo
-#
-#     # Calcular o valor total da carteira ao longo do tempo
-#     valor_carteira["Total"] = valor_carteira.sum(axis=1)
-#
-#     # Calcular o retorno da carteira
-#     valor_final = valor_carteira["Total"].iloc[-1]
-#     retorno_total = (valor_final - total_investido) / total_investido
-#
-#     # Exibir os resultados
-#     print(valor_carteira)
-#
-#     # Visualizar o valor total da carteira no último dia
-#     print(f"Valor final da carteira em {fim}: ${valor_final:.2f}")
-#
-#     # Visualizar o retorno total da carteira no período
-#     print(f"Retorno total da carteira de {inicio} a {fim}: {retorno_total * 100:.2f}%")
-#
-#     # Calcular o retorno anualizado (considerando 11 anos)
-#     anos = 11
-#     retorno_anualizado = ((1 + retorno_total) ** (1 / anos)) - 1
-#
-#     # Visualizar o retorno anualizado
-#     print(f"Retorno anualizado ao longo de {anos} anos: {retorno_anualizado * 100:.2f}%")
-#
-#     retorno_final = round(retorno_anualizado * 100, 2)
-#
-#     return retorno_final, dividendos_acumulados
 
 def gera_carteira(compras):
     # Definir o intervalo de datas
@@ -411,8 +333,6 @@ def main():
 
     df = df.dropna()
     df = df.reset_index(drop=True)
-
-    print(df)
 
     # rankings para as monstagens das carteiras
     ranking_dy = gera_lista_rankings(df, ["dy"], lista_anos)
